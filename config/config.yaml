@@ -78,61 +78,47 @@ platforms:
     - id: "zhihu"
       name: "知乎"
 
-
-
 # ===============================================================
-# 3. 数据源 - RSS 订阅
+# 3. 数据源- RSS 订阅
 #
 # 与热榜数据分开存储，按时间流展示
 # 每个源配置：id(唯一标识)、name(显示名称)、url(订阅地址)
-# enabled: 可选，默认 true
-# max_age_days: 可选，覆盖全局 freshness_filter.max_age_days
 # ===============================================================
 rss:
-  enabled: true                       # 是否启用 RSS 抓取
-
-  # 文章新鲜度过滤配置（全局默认值）
-  # 过滤掉发布时间超过指定天数的旧文章，避免同一篇文章重复出现在推送中
-  #
-  # 过滤逻辑：
-  #   - 文章发布时间距当前时间（app.timezone 时区）超过 N 天则不推送
-  #   - 无发布时间的文章会被保留（不过滤）
-  #
-  # ⚠️ 过滤时机：在推送阶段过滤
-  #    - 所有文章都会存入数据库（MCP Server 的 AI 查询仍可访问）
-  #    - 只有新鲜的文章会被推送到通知渠道
+  enabled: true # 是否启用RSS 抓取
   freshness_filter:
-    enabled: true                     # 是否启用新鲜度过滤（默认启用）
+    enabled: true # 是否启用新鲜度过滤（默认启用）
+    max_age_days: 1 # 只推送最近1天内的文章，保持前沿
 
-    max_age_days: 1                   # 最大文章年龄（天）
-                                      # - 正整数：只推送 N 天内的文章
-                                      # - 0：禁用过滤，推送所有文章
-
-  # 单个 feed 可配置 max_age_days 覆盖全局设置：
-  # - 不配置：使用全局 freshness_filter.max_age_days（默认 3 天）
-  # - 正整数：覆盖全局设置，只推送此天数内的文章
-  # - 0：禁用此频道的新鲜度过滤，推送所有文章
   feeds:
-    - id: "hacker-news"
-      name: "Hacker News"
-      url: "https://hnrss.org/frontpage"
+    # ====== 1. 顶级技术社区与资讯 ======
+    - id: "hacker-news-ai"
+      name: "Hacker News (AI专区)"
+      url: "https://hnrss.org/frontpage?q=LLM+OR+Agent+OR+AI"
+    - id: "openai-blog"
+      name: "OpenAI 官方博客"
+      url: "https://openai.com/news/rss.xml"
+    - id: "machine-heart"
+      name: "机器之心 (前沿速递)"
+      url: "https://rsshub.app/jiqizhixin/index"
 
-    - id: "ruanyifeng"
-      name: "阮一峰的网络日志"
-      url: "http://www.ruanyifeng.com/blog/atom.xml"
-      enabled: false                  # 禁用
-      # max_age_days: 3               # 示例：推送 3 天内的文章（更新较慢的博客）
-     
-    - id: "yahoo-finance"
-      name: "雅虎财经"
-      url: "https://finance.yahoo.com/news/rssindex"
+    # ====== 2. 核心论文与学术前沿 ======
+    - id: "huggingface-papers"
+      name: "HF 社区高赞论文"
+      url: "https://rsshub.app/huggingface/daily-papers"
+    - id: "arxiv-cscl"
+      name: "ArXiv (计算语言学/大模型)"
+      url: "https://rsshub.app/arxiv/category/cs.CL"
 
-    # 自定义源示例
-    # - id: "custom-feed"
-    #   name: "自定义源"
-    #   url: "https://example.com/feed.xml"
-    #   enabled: false
-    #   max_age_days: 0               # 示例：禁用过滤，推送所有文章
+    # ====== 3. GitHub 开源风向 ======
+    - id: "github-trending-python"
+      name: "GitHub 趋势 (Python/AI生态)"
+      url: "https://rsshub.app/github/trending/daily/python"
+    
+    # ====== 4. 社交媒体 Alpha 消息 (X/Twitter) ======
+    - id: "twitter-ai-agent"
+      name: "X (Twitter) - AI Agent 动态"
+      url: "https://rsshub.app/twitter/keyword/AI+Agent"
 
 
 # ===============================================================
