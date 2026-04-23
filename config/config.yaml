@@ -98,9 +98,20 @@ rss:
     - id: "openai-blog"
       name: "OpenAI 官方博客"
       url: "https://openai.com/news/rss.xml"
-    - id: "machine-heart"
-      name: "机器之心 (前沿速递)"
-      url: "https://rsshub.app/jiqizhixin/index"
+    - id: "anthropic-blog"
+      name: "Anthropic (Claude) 博客"
+      url: "https://www.anthropic.com/feed.xml"
+    - id: "vllm-releases"
+      name: "vLLM 版本更新"
+      url: "https://github.com/vllm-project/vllm/releases.atom"
+    - id: "langchain-blog"
+      name: "LangChain 官方博客"
+      url: "https://blog.langchain.dev/rss/"
+
+    # ====== 3. 备用高质量中文 AI 资讯 ======
+    - id: "qbitai"
+      name: "量子位"
+      url: "https://www.qbitai.com/feed"
 
     # ====== 2. 核心论文与学术前沿 ======
     - id: "huggingface-papers"
